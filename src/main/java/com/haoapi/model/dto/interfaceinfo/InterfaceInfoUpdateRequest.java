@@ -1,26 +1,28 @@
-package com.haoapi.model.entity;
+package com.haoapi.model.dto.interfaceinfo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
- * 接口信息表
- * @TableName interface_info
+ * 用户更新请求
+ *
+ * 
+ * haoapi-backend
  */
-@TableName(value ="interface_info")
 @Data
-public class InterfaceInfo implements Serializable {
+public class InterfaceInfoUpdateRequest implements Serializable {
     /**
      * 主键
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 用户名
+     * 名称
      */
     private String name;
 
@@ -49,32 +51,11 @@ public class InterfaceInfo implements Serializable {
      */
     private Integer status;
 
-    /**
-     * 创建人
-     */
-    private Long userId;
 
     /**
      * 请求类型
      */
     private String method;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
-    /**
-     * 是否删除(0-未删, 1-已删)
-     */
-    @TableLogic
-    private Integer isDeleted;
-
-    @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

@@ -1,19 +1,20 @@
 package com.haoapi.controller;
-
+import com.google.gson.Gson;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hao.haoapiclientsdk.client.HaoApiClient;
 import com.haoapi.annotation.AuthCheck;
-import com.haoapi.common.BaseResponse;
-import com.haoapi.common.DeleteRequest;
-import com.haoapi.common.ErrorCode;
-import com.haoapi.common.ResultUtils;
+import com.haoapi.common.*;
 import com.haoapi.constant.CommonConstant;
 import com.haoapi.exception.BusinessException;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.haoapi.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.haoapi.model.entity.InterfaceInfo;
 import com.haoapi.model.entity.User;
+
+import com.haoapi.model.enums.InterfaceInfoStatusEnum;
 import com.haoapi.service.InterfaceInfoService;
 import com.haoapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private HaoApiClient haoApiClient;
 
 //    @Resource
 //    private YuApiClient yuApiClient;
@@ -207,33 +211,33 @@ public class InterfaceInfoController {
      * @param request
      * @return
      */
-//    @PostMapping("/online")
-//    @AuthCheck(mustRole = "admin")
-//    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
-//                                                     HttpServletRequest request) {
-//        if (idRequest == null || idRequest.getId() <= 0) {
-//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-//        }
-//        long id = idRequest.getId();
-//        // 判断是否存在
-//        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
-//        if (oldInterfaceInfo == null) {
-//            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
-//        }
-//        // 判断该接口是否可以调用
-//        com.yupi.yuapiclientsdk.model.User user = new com.yupi.yuapiclientsdk.model.User();
-//        user.setUsername("test");
-//        String username = yuApiClient.getUsernameByPost(user);
-//        if (StringUtils.isBlank(username)) {
-//            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
-//        }
-//        // 仅本人或管理员可修改
-//        InterfaceInfo interfaceInfo = new InterfaceInfo();
-//        interfaceInfo.setId(id);
-//        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
-//        boolean result = interfaceInfoService.updateById(interfaceInfo);
-//        return ResultUtils.success(result);
-//    }
+    @PostMapping("/online")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 判断该接口是否可以调用
+        com.hao.haoapiclientsdk.model.User user = new com.hao.haoapiclientsdk.model.User();
+        user.setUsername("test");
+        String username = haoApiClient.getUsernameByPost(user);
+        if (StringUtils.isBlank(username)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
 
     /**
      * 下线
@@ -242,58 +246,60 @@ public class InterfaceInfoController {
      * @param request
      * @return
      */
-//    @PostMapping("/offline")
-//    @AuthCheck(mustRole = "admin")
-//    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
-//                                                      HttpServletRequest request) {
-//        if (idRequest == null || idRequest.getId() <= 0) {
-//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-//        }
-//        long id = idRequest.getId();
-//        // 判断是否存在
-//        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
-//        if (oldInterfaceInfo == null) {
-//            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
-//        }
-//        // 仅本人或管理员可修改
-//        InterfaceInfo interfaceInfo = new InterfaceInfo();
-//        interfaceInfo.setId(id);
-//        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
-//        boolean result = interfaceInfoService.updateById(interfaceInfo);
-//        return ResultUtils.success(result);
-//    }
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                      HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
 //
-//    /**
-//     * 测试调用
-//     *
-//     * @param interfaceInfoInvokeRequest
-//     * @param request
-//     * @return
-//     */
-//    @PostMapping("/invoke")
-//    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
-//                                                    HttpServletRequest request) {
-//        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
-//            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-//        }
-//        long id = interfaceInfoInvokeRequest.getId();
-//        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
-//        // 判断是否存在
-//        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
-//        if (oldInterfaceInfo == null) {
-//            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
-//        }
-//        if (oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()) {
-//            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
-//        }
-//        User loginUser = userService.getLoginUser(request);
-//        String accessKey = loginUser.getAccessKey();
-//        String secretKey = loginUser.getSecretKey();
-//        YuApiClient tempClient = new YuApiClient(accessKey, secretKey);
-//        Gson gson = new Gson();
-//        com.yupi.yuapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.yupi.yuapiclientsdk.model.User.class);
-//        String usernameByPost = tempClient.getUsernameByPost(user);
-//        return ResultUtils.success(usernameByPost);
-//    }
+    /**
+     * 测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                    HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //TODO 改为不等于开启状态
+        if (oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
+        }
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        HaoApiClient tempClient = new HaoApiClient(accessKey, secretKey);
+        //TODO 设置调用次数等信息
+        Gson gson = new Gson();
+        com.hao.haoapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.hao.haoapiclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUsernameByPost(user);
+        return ResultUtils.success(usernameByPost);
+    }
 
 }

@@ -74,3 +74,8 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.haoapi.controller
+haoapi:
+  client:
+    access-key: xuhao
+    secret-key: haoapi
+

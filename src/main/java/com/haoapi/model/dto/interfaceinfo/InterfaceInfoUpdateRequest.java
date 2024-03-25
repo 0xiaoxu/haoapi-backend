@@ -50,7 +50,10 @@ public class InterfaceInfoUpdateRequest implements Serializable {
      * 接口状态，0关闭，1开启
      */
     private Integer status;
-
+    /**
+     * 请求参数
+     */
+    private String requestParams;
 
     /**
      * 请求类型

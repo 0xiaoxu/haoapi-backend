@@ -1,6 +1,6 @@
 package com.haoapi.model.vo;
 
-import com.haoapi.model.entity.InterfaceInfo;
+import haoapicommon.model.entity.InterfaceInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -1,7 +1,7 @@
 package com.haoapi.mapper;
 
-import com.haoapi.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import haoapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author XuHao

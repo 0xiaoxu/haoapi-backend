@@ -1,16 +1,14 @@
-package com.haoapi.service.impl;
+package com.haoapi.service.impl.inner;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.haoapi.common.ErrorCode;
 import com.haoapi.exception.BusinessException;
 import com.haoapi.exception.ThrowUtils;
-import com.haoapi.model.entity.InterfaceInfo;
 import com.haoapi.service.InterfaceInfoService;
 import com.haoapi.mapper.InterfaceInfoMapper;
+import haoapicommon.model.entity.InterfaceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 
 /**
 * @author XuHao

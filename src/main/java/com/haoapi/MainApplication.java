@@ -1,5 +1,6 @@
 package com.haoapi;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.junit.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +22,7 @@ import static com.haoapi.service.impl.UserServiceImpl.SALT;
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 @MapperScan("com.haoapi.mapper")
 @EnableScheduling
+@EnableDubbo
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 public class MainApplication {
 

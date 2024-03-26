@@ -11,12 +11,12 @@ import com.haoapi.model.dto.interfaceinfo.InterfaceInfoAddRequest;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.haoapi.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
-import com.haoapi.model.entity.InterfaceInfo;
 import com.haoapi.model.entity.User;
 
 import com.haoapi.model.enums.InterfaceInfoStatusEnum;
 import com.haoapi.service.InterfaceInfoService;
 import com.haoapi.service.UserService;
+import haoapicommon.model.entity.InterfaceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -29,8 +29,6 @@ import java.util.List;
 /**
  * 接口管理
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @RestController
 @RequestMapping("/interfaceInfo")
@@ -45,9 +43,6 @@ public class InterfaceInfoController {
 
     @Resource
     private HaoApiClient haoApiClient;
-
-//    @Resource
-//    private YuApiClient yuApiClient;
 
     // region 增删改查
 

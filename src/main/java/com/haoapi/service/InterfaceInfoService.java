@@ -1,7 +1,7 @@
 package com.haoapi.service;
 
-import com.haoapi.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import haoapicommon.model.entity.InterfaceInfo;
 
 /**
 * @author XuHao
